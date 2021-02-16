@@ -9,10 +9,10 @@
 <body>
     <div id="container">
         <header>
-            <div style="width: 20%; height: auto"><img src="media/logo_seogu.jpeg" class="logo" height="80px"></div>
+            <div style="width: 20%; height: auto"><img src="media/logo_seogu.jpeg" class="logo" height="80px" alt="Seogu Logo"></div>
             <div style="width: 60%"><h1>스마트펜스 정보 시스템</h1></div>
             <div style="width: 10%"></div>
-            <div style="max-width: 10%; height: auto"><img align="right" src="media/logo_pure.png" class="logo"></div>
+            <div style="max-width: 10%; height: auto"><img align="right" src="media/logo_pure.png" class="logo" alt="Pureecotech Logo"></div>
             <div style="clear: both"></div>
             <hr>
         </header>
@@ -34,7 +34,6 @@
                         </td>
                     </tr>
                     </tbody>
-                    </tr>
                 </table>
             </div>
             <hr>
@@ -109,21 +108,20 @@
                             //     }
                             // }
 
-                            var count = 0;
-
-
-                            x = xmlDoc.getElementsByTagName("totalCount");
-                            y = x[0].childNodes[0];
-                            z = y.nodeValue;
-                            count = Number(z);
-                            // alert(x.length);
+                            // var count = 0;
+                            //
+                            //
+                            // x = xmlDoc.getElementsByTagName("totalCount");
+                            // y = x[0].childNodes[0];
+                            // z = y.nodeValue;
+                            // count = Number(z);
+                            // // alert(x.length);
 
                             x = xmlDoc.getElementsByTagName("ROUTEID");
                             for (i = 0; i < x.length; i++) {
                                 y = x[i].childNodes[0];
                                 z = y.nodeValue;
-                                var route = routeNo[z];
-                                document.getElementById('cell1_'+String(i+1)).innerHTML = route;
+                                document.getElementById('cell1_'+String(i+1)).innerHTML = routeNo[z];
                             }
 
                             x = xmlDoc.getElementsByTagName("ARRIVALESTIMATETIME");
