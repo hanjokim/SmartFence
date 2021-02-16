@@ -54,7 +54,7 @@
             <div id="bis">
                 <sectionName>버스도착정보</sectionName>
                 <script>
-                    var routeNo = {
+                    const routeNo = {
                         '165000059': '202',
                         '165000238': '2-1',
                         '165000328': '72',
@@ -62,12 +62,12 @@
                         '166000010': '급행91',
                         '168000038': '인천e음85',
                     }
-                    var xhr = new XMLHttpRequest();
-                    var url = 'http://localhost/api.php'
-                    var rString = '';
-                    var xmlString = '';
+                    let xhr = new XMLHttpRequest();
+                    let url = 'http://localhost/api.php';
+                    let rString = '';
+                    let xmlString = '';
                     // var jsonString = '';
-                    var parser = new DOMParser();
+                    let parser = new DOMParser();
                     xhr.onreadystatechange = callbackFunction;
                     xhr.open('GET', url, true);
                     xhr.send('');
@@ -86,8 +86,8 @@
                             // alert(rString.length);
 
                             rString = unescapeHtml(xhr.responseText);
-                            var indexStart = rString.indexOf("<?xml");
-                            var indexEnd = rString.indexOf("'</font>");
+                            let indexStart = rString.indexOf("<?xml");
+                            let indexEnd = rString.indexOf("'</font>");
                             // alert(indexStart)
                             xmlString = rString.slice(indexStart, indexEnd);
                             // alert(xmlString);
@@ -95,7 +95,7 @@
                             xmlString = unescapeHtml(xmlString);
                             // alert(xmlString.length);
                             console.log(xmlString.length);
-                            var xmlDoc = parser.parseFromString(xmlString, "text/xml");
+                            let xmlDoc = parser.parseFromString(xmlString, "text/xml");
                             // var obj = xmlToJson(xmlDoc);
                             // jsonString = xml2json(unescapeHtml(xmlString));
                             // jsonString = JSON.stringify(obj);
@@ -117,33 +117,33 @@
                             // count = Number(z);
                             // // alert(x.length);
 
-                            x = xmlDoc.getElementsByTagName("ROUTEID");
-                            for (i = 0; i < x.length; i++) {
-                                y = x[i].childNodes[0];
-                                z = y.nodeValue;
+                            let x = xmlDoc.getElementsByTagName("ROUTEID");
+                            for (let i = 0; i < x.length; i++) {
+                                let y = x[i].childNodes[0];
+                                let z = y.nodeValue;
                                 document.getElementById('cell1_'+String(i+1)).innerHTML = routeNo[z];
                             }
 
                             x = xmlDoc.getElementsByTagName("ARRIVALESTIMATETIME");
-                            for (i = 0; i < x.length; i++) {
-                                y = x[i].childNodes[0];
-                                z = Number(y.nodeValue) / 60; // 초단위
-                                var wait = '곧 도착';
+                            for (let i = 0; i < x.length; i++) {
+                                let y = x[i].childNodes[0];
+                                let z = Number(y.nodeValue) / 60; // 초단위
+                                let wait = '곧 도착';
                                 if (z > 1) {
                                     wait = String(parseInt(z)) + '분';
                                 }
                                 document.getElementById('cell2_'+String(i+1)).innerHTML = wait;
                             }
                             x = xmlDoc.getElementsByTagName("BUS_NUM_PLATE");
-                            for (i = 0; i < x.length; i++) {
-                                y = x[i].childNodes[0];
-                                z = y.nodeValue;
+                            for (let i = 0; i < x.length; i++) {
+                                let y = x[i].childNodes[0];
+                                let z = y.nodeValue;
                                 document.getElementById('cell3_'+String(i+1)).innerHTML = z;
                             }
                             x = xmlDoc.getElementsByTagName("REST_STOP_COUNT");
-                            for (i = 0; i < x.length; i++) {
-                                y = x[i].childNodes[0];
-                                z = y.nodeValue;
+                            for (let i = 0; i < x.length; i++) {
+                                let y = x[i].childNodes[0];
+                                let z = y.nodeValue;
                                 document.getElementById('cell4_'+String(i+1)).innerHTML = z + ' 정류장 전';
                             }
 
@@ -255,9 +255,9 @@
                     //////////////////////////////gauge 1
                     // init = function(){
 
-                    var temp = "16";
-                    var hum = "50";
-                    var fdust = "15"
+                    let temp = "16";
+                    let hum = "50";
+                    let fdust = "15";
 
                     var g = new JustGage({
                         id: "gauge1",
