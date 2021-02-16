@@ -20,12 +20,15 @@ header {
     height: auto;
 }
 header > div {
-    display: inline-block;
+    display: flex;
+    /*display: inline-block;*/
     float: left;
     vertical-align: middle;
 }
 header > div > img {
-    vertical-align: middle;
+    object-fit: contain;
+    max-height: 5em;
+    align-items: center;
 }
 header.logo {
     margin: 0;
