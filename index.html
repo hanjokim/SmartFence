@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Fence</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="container">
+        <header>
+            <div style="width: 20%; height: auto"><img src="media/logo_seogu.jpeg" class="logo" height="80px"></div>
+            <div style="width: 60%"><h1>스마트펜스 정보 시스템</h1></div>
+            <div style="width: 10%"></div>
+            <div style="max-width: 10%; height: auto"><img align="right" src="media/logo_pure.png" class="logo"></div>
+            <div style="clear: both"></div>
+            <hr>
+        </header>
+        <div id="left">
+            <div id="movie">
+                <sectionName>동영상</sectionName>
+<!--                <video src="media/2019%20인천광역시%20홍보영상_1080p.mp4" autoplay loop muted width="100%"></video>-->
+                <video src="media/인천관광 홍보영상 - Always OPEN city Incheon_1080p.mp4" autoplay loop muted width="100%"></video>
+            </div>
+            <hr>
+            <div id="news">
+                <sectionName>뉴스/속보</sectionName>
+                <link rel="stylesheet" href="css/news.css">
+                <table class="newsContent">
+                    <tbody>
+                    <tr>
+                        <td id="news_content">
+                            2월 15일 09시 00분 : [중대본]내일부터 2주간 사회적 거리두기 수도권 2단계, 비수도권 1.5단계로 하향됩니다.
+                        </td>
+                    </tr>
+                    </tbody>
+                    </tr>
+                </table>
+            </div>
+            <hr>
+            <div id="notice">
+                <sectionName>공지사항</sectionName>
+                <link rel="stylesheet" href="css/notice.css">
+                <ul class="sq_bullet">
+                    <li>2021/02/01 서구청 공지</li>
+                    <li>2021/02/01 서구청 공지</li>
+                </ul>
+            </div>
+        </div>
+        <div id="right">
+            <div id="bis">
+                <sectionName>버스도착정보</sectionName>
+                <script>
+                    var routeNo = {
+                        '165000059': '202',
+                        '165000238': '2-1',
+                        '165000328': '72',
+                        '165000507': '44',
+                        '166000010': '급행91',
+                        '168000038': '인천e음85',
+                    }
+                    var xhr = new XMLHttpRequest();
+                    var url = 'http://localhost/api.php'
+                    var rString = '';
+                    var xmlString = '';
+                    // var jsonString = '';
+                    var parser = new DOMParser();
+                    xhr.onreadystatechange = callbackFunction;
+                    xhr.open('GET', url, true);
+                    xhr.send('');
+
+                    function callbackFunction(){
+                        // 0: request not initialized
+                        // 1: server connection established
+                        // 2: request received
+                        // 3: processing request
+                        // 4: request finished and response is ready
+                        if(xhr.readyState === 1 || xhr.readyState === 2 || xhr.readyState ===3 ){
+                            // alert("Request in progress..." + xhr.readyState) //화면에 작업 중 메시지 출력
+                        }else if(xhr.readyState === 4){ if(xhr.status === 200){
+                            // alert(xhr.statusText);
+                            rString = xhr.responseText;
+                            // alert(rString.length);
+
+                            rString = unescapeHtml(xhr.responseText);
+                            var indexStart = rString.indexOf("<?xml");
+                            var indexEnd = rString.indexOf("'</font>");
+                            // alert(indexStart)
+                            xmlString = rString.slice(indexStart, indexEnd);
+                            // alert(xmlString);
+                            console.log(xmlString);
+                            xmlString = unescapeHtml(xmlString);
+                            // alert(xmlString.length);
+                            console.log(xmlString.length);
+                            var xmlDoc = parser.parseFromString(xmlString, "text/xml");
+                            // var obj = xmlToJson(xmlDoc);
+                            // jsonString = xml2json(unescapeHtml(xmlString));
+                            // jsonString = JSON.stringify(obj);
+                            // alert(jsonString);
+                            //
+                            // if(xmlDoc != null){
+                            //     var nodes = xmlDoc.selectNodes("BUSID");
+                            //     for (i = 0; i < nodes.length; i++){
+                            //         var id = nodes[i].selectSingleNode("id").text;
+                            //     }
+                            // }
+
+                            var count = 0;
+
+
+                            x = xmlDoc.getElementsByTagName("totalCount");
+                            y = x[0].childNodes[0];
+                            z = y.nodeValue;
+                            count = Number(z);
+                            // alert(x.length);
+
+                            x = xmlDoc.getElementsByTagName("ROUTEID");
+                            for (i = 0; i < x.length; i++) {
+                                y = x[i].childNodes[0];
+                                z = y.nodeValue;
+                                var route = routeNo[z];
+                                document.getElementById('cell1_'+String(i+1)).innerHTML = route;
+                            }
+
+                            x = xmlDoc.getElementsByTagName("ARRIVALESTIMATETIME");
+                            for (i = 0; i < x.length; i++) {
+                                y = x[i].childNodes[0];
+                                z = Number(y.nodeValue) / 60; // 초단위
+                                var wait = '곧 도착';
+                                if (z > 1) {
+                                    wait = String(parseInt(z)) + '분';
+                                }
+                                document.getElementById('cell2_'+String(i+1)).innerHTML = wait;
+                            }
+                            x = xmlDoc.getElementsByTagName("BUS_NUM_PLATE");
+                            for (i = 0; i < x.length; i++) {
+                                y = x[i].childNodes[0];
+                                z = y.nodeValue;
+                                document.getElementById('cell3_'+String(i+1)).innerHTML = z;
+                            }
+                            x = xmlDoc.getElementsByTagName("REST_STOP_COUNT");
+                            for (i = 0; i < x.length; i++) {
+                                y = x[i].childNodes[0];
+                                z = y.nodeValue;
+                                document.getElementById('cell4_'+String(i+1)).innerHTML = z + ' 정류장 전';
+                            }
+
+
+                            // document.getElementById('bis_info').innerHTML = output;
+
+                        }else{ alert("문제 발생:" + xhr.status); } } }
+
+                    function unescapeHtml(str) {
+                        if (str == null) {
+                            return "";
+                        }
+                        return str
+                            .replace(/&lt;/g, '<')
+                            .replace(/&gt;/g, '>')
+                            .replace(/&quot;/g, '"');
+                    }
+                </script>
+
+                <div id="bis_info">
+                    <h2 class="station">[청라국제도시역 : 89-043] 주변</h2>
+                    <link rel="stylesheet" href="css/bis.css">
+                    <table class="bisContent">
+                        <thead>
+                        <tr>
+                            <th>노선번호</th>
+                            <th>도착시간</th>
+                            <th>차량번호</th>
+                            <th>버스위치</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td id="cell1_1">&nbsp;</td>
+                            <td id="cell2_1">&nbsp;</td>
+                            <td id="cell3_1">&nbsp;</td>
+                            <td id="cell4_1">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td id="cell1_2">&nbsp;</td>
+                            <td id="cell2_2">&nbsp;</td>
+                            <td id="cell3_2">&nbsp;</td>
+                            <td id="cell4_2">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td id="cell1_3">&nbsp;</td>
+                            <td id="cell2_3">&nbsp;</td>
+                            <td id="cell3_3">&nbsp;</td>
+                            <td id="cell4_3">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td id="cell1_4">&nbsp;</td>
+                            <td id="cell2_4">&nbsp;</td>
+                            <td id="cell3_4">&nbsp;</td>
+                            <td id="cell4_4">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td id="cell1_5">&nbsp;</td>
+                            <td id="cell2_5">&nbsp;</td>
+                            <td id="cell3_5">&nbsp;</td>
+                            <td id="cell4_5">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td id="cell1_6">&nbsp;</td>
+                            <td id="cell2_6">&nbsp;</td>
+                            <td id="cell3_6">&nbsp;</td>
+                            <td id="cell4_6">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td id="cell1_7">&nbsp;</td>
+                            <td id="cell2_7">&nbsp;</td>
+                            <td id="cell3_7">&nbsp;</td>
+                            <td id="cell4_7">&nbsp;</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <hr>
+            <div id="atm">
+                <sectionName>대기정보</sectionName>
+                <table>
+                    <tr>
+                        <td>
+                            <span id=calcValue1></span>
+                            <div style="width: 100%; height: auto" id="gauge1"></div>
+                        </td>
+                        <td>
+                            <span id=calcValue2></span>
+                            <div style="width: 100%; height: auto" id="gauge2"></div>
+                        </td>
+                        <td>
+                            <span id=calcValue3></span>
+                            <div style="width: 100%; height: auto" id="gauge3"></div>
+                        </td>
+                    </tr>
+                </table>
+                <script src="js/raphael-min.js"></script>
+                <script src="js/justgage.min.js"></script>
+                <script>
+                    // resource=[
+                    //     "js/raphael-min.js",
+                    //     "js/justgage.min.js"
+                    // ]
+                    // $.getScript(resource[0],function(){
+                    //     $.getScript(resource[1],init)
+                    // })
+                    //////////////////////////////gauge 1
+                    // init = function(){
+
+                    var temp = "10";
+                    var hum = "50";
+                    var fdust = "15"
+
+                    var g = new JustGage({
+                        id: "gauge1",
+                        value: temp,
+                        min: -20,
+                        max: 50,
+                        title: "기온",
+                        levelColors: ['#0000ff', '#00ff00', '#ff0000']
+                    });
+
+                    //refresh gauge when calcvalue changes
+                    // $(calcValue1).one('DOMSubtreeModified',function(){
+                    //     g.refresh($(this).text())
+                    // })
+                    ////////////////////////////////gauge 2
+                    var g = new JustGage({
+                        id: "gauge2",
+                        value: hum,
+                        min: 0,
+                        max: 100,
+                        title: "습도",
+                        levelColors: ['#0F3F73', '#6393bc', '#aaaaaa']
+                    });
+                    //refresh gauge when calcvalue changes
+                    // $(calcValue2).one('DOMSubtreeModified',function(){
+                    //     g.refresh($(this).text())
+                    // })
+                    ////////////////////////////////gauge 3
+                    var g = new JustGage({
+                        id: "gauge3",
+                        value: fdust,
+                        min: 0,
+                        max: 150,
+                        title: "미세먼지농도",
+                        levelColors: ['#dddddd', '#aaaaaa', '#666666']
+                    });
+                    //refresh gauge when calcvalue changes
+                    // $(calcValue3).one('DOMSubtreeModified',function(){
+                    //     g.refresh($(this).text())
+                    // })
+                    // }
+                </script>
+            </div>
+            <hr>
+            <div id="weather">
+                <sectionName>날씨정보</sectionName>
+                <h2 class="station">[청라국제도시역 : 89-043] 주변</h2>
+                <link rel="stylesheet" href="css/climate.css">
+                <table class="climate">
+                    <thead>
+                    <tr>
+                        <th>1시간 후</th>
+                        <th>2시간 후</th>
+                        <th>3시간 후</th>
+                        <th>4시간 후</th>
+                        <th>5시간 후</th>
+                        <th>6시간 후</th>
+                        <th>7시간 후</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td id="1h"><img src="media/1.png"></td>
+                        <td id="2h"><img src="media/2.png"></td>
+                        <td id="3h"><img src="media/3.png"></td>
+                        <td id="4h"><img src="media/4.png"></td>
+                        <td id="5h"><img src="media/5.png"></td>
+                        <td id="6h"><img src="media/6.png"></td>
+                        <td id="7h"><img src="media/7.png"></td>
+                    </tr>
+                    <tr>
+                        <td>15&#8451;</td>
+                        <td>14&#8451;</td>
+                        <td>11&#8451;</td>
+                        <td>9&#8451;</td>
+                        <td>7&#8451;</td>
+                        <td>6&#8451;</td>
+                        <td>6&#8451;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
