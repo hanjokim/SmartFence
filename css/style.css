@@ -5,6 +5,17 @@
     width: 100%;
     font-family: "맑은 고딕", sans-serif;
 }
+#clock {
+    font-size: 2em;
+    text-align: center;
+    text-shadow: 2px 2px 3px gray;
+}
+#date {
+    color: cornflowerblue;
+}
+#time {
+    color: lightcoral;
+}
 #container {
     width:100%;
 }

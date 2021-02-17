@@ -16,6 +16,41 @@
             <div style="clear: both"></div>
             <hr>
         </header>
+        <div id="clock">
+            <span id="date">2021년 02월 17일</span>
+            <span id="time">오전 12:00:00</span>
+            <script>
+                // var clockTarget = document.getElementById("clock");
+                var dateTarget = document.getElementById("date");
+                var timeTarget = document.getElementById("time");
+
+                function clock() {
+                    var date = new Date(); // date Object를 받아오고
+                    var month = date.getMonth(); // 달을 받아옵니다
+                    var year = date.getFullYear();
+                    var clockDate = date.getDate(); // 몇일인지 받아옵니다
+                    var day = date.getDay(); // 요일을 받아옵니다.
+                    var week = ['일', '월', '화', '수', '목', '금', '토']; // 요일은 숫자형태로 리턴되기때문에 미리 배열을 만듭니다.
+                    var hours = date.getHours(); // 시간을 받아오고
+                    var minutes = date.getMinutes(); // 분도 받아옵니다.
+                    var seconds = date.getSeconds(); // 초까지 받아온후
+                    // clockTarget .innerText = `${year}년 ${month+1}월 ${clockDate}일 ${week[day]}요일` +
+                    //     `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes }`  : minutes }:${seconds < 10 ? `0${seconds }`  : seconds }`;
+                    dateTarget .innerText = `${month+1} / ${clockDate} \(${week[day]}\)`;
+                    timeTarget .innerText = ` ${hours < 10 ? `0${hours}` : hours} : ${minutes < 10 ? `0${minutes }`  : minutes } : ${seconds < 10 ? `0${seconds }`  : seconds }`;
+                    // 월은 0부터 1월이기때문에 +1일을 해주고
+                    // 시간 분 초는 한자리수이면 시계가 어색해보일까봐 10보다 작으면 앞에0을 붙혀주는 작업을 3항연산으로 했습니다.
+                }
+
+                function init() {
+                    clock(); // 최초에 함수를 한번 실행시켜주고
+                    setInterval(clock, 1000); // setInterval이라는 함수로 매초마다 실행을 해줍니다.
+                    // setInterval은 첫번째 파라메터는 함수이고 두번째는 시간인데 밀리초단위로 받습니다. 1000 = 1초
+                }
+
+                init();
+            </script>
+        </div>
         <div id="left">
             <div id="movie">
                 <sectionName>동영상</sectionName>
@@ -111,11 +146,11 @@
                             // var count = 0;
                             //
                             //
-                            // x = xmlDoc.getElementsByTagName("totalCount");
-                            // y = x[0].childNodes[0];
-                            // z = y.nodeValue;
+                            // let x = xmlDoc.getElementsByTagName("totalCount");
+                            // let y = x[0].childNodes[0];
+                            // let z = y.nodeValue;
                             // count = Number(z);
-                            // // alert(x.length);
+                            // alert(count);
 
                             let x = xmlDoc.getElementsByTagName("ROUTEID");
                             for (let i = 0; i < x.length; i++) {
@@ -229,16 +264,20 @@
                 <table>
                     <tr>
                         <td>
-                            <span id=calcValue1></span>
-                            <div style="width: 100%; height: auto" id="gauge1"></div>
+<!--                            <span id=calcValue1></span>-->
+                            <div style="width: 100%; height: auto;" id="gauge1"></div>
                         </td>
                         <td>
-                            <span id=calcValue2></span>
+<!--                            <span id=calcValue2></span>-->
                             <div style="width: 100%; height: auto" id="gauge2"></div>
                         </td>
                         <td>
-                            <span id=calcValue3></span>
+<!--                            <span id=calcValue3></span>-->
                             <div style="width: 100%; height: auto" id="gauge3"></div>
+                        </td>
+                         <td>
+<!--                            <span id=calcValue4></span>-->
+                            <div style="width: 100%; height: auto" id="gauge4"></div>
                         </td>
                     </tr>
                 </table>
@@ -255,9 +294,10 @@
                     //////////////////////////////gauge 1
                     // init = function(){
 
-                    let temp = "16";
-                    let hum = "50";
+                    let temp = "-7";
+                    let hum = "24";
                     let fdust = "15";
+                    let ufdust = "10";
 
                     var g = new JustGage({
                         id: "gauge1",
@@ -292,6 +332,20 @@
                         min: 0,
                         max: 150,
                         title: "미세먼지농도",
+                        levelColors: ['#dddddd', '#aaaaaa', '#666666']
+                    });
+                    //refresh gauge when calcvalue changes
+                    // $(calcValue3).one('DOMSubtreeModified',function(){
+                    //     g.refresh($(this).text())
+                    // })
+                    // }
+                    ////////////////////////////////gauge 4
+                    var g = new JustGage({
+                        id: "gauge4",
+                        value: ufdust,
+                        min: 0,
+                        max: 150,
+                        title: "초미세먼지농도",
                         levelColors: ['#dddddd', '#aaaaaa', '#666666']
                     });
                     //refresh gauge when calcvalue changes
