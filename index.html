@@ -25,19 +25,26 @@
                 var timeTarget = document.getElementById("time");
 
                 function clock() {
-                    var date = new Date(); // date Object를 받아오고
-                    var month = date.getMonth(); // 달을 받아옵니다
-                    var year = date.getFullYear();
-                    var clockDate = date.getDate(); // 몇일인지 받아옵니다
-                    var day = date.getDay(); // 요일을 받아옵니다.
-                    var week = ['일', '월', '화', '수', '목', '금', '토']; // 요일은 숫자형태로 리턴되기때문에 미리 배열을 만듭니다.
-                    var hours = date.getHours(); // 시간을 받아오고
-                    var minutes = date.getMinutes(); // 분도 받아옵니다.
-                    var seconds = date.getSeconds(); // 초까지 받아온후
+                    let date = new Date(); // date Object를 받아오고
+                    let month = date.getMonth(); // 달을 받아옵니다
+                    let year = date.getFullYear();
+                    let clockDate = date.getDate(); // 몇일인지 받아옵니다
+                    let day = date.getDay(); // 요일을 받아옵니다.
+                    let week = ['일', '월', '화', '수', '목', '금', '토']; // 요일은 숫자형태로 리턴되기때문에 미리 배열을 만듭니다.
+                    let ampm = '오전';
+                    let hours = date.getHours(); // 시간을 받아오고
+                    if (hours >= 12) {
+                        ampm = '오후';
+                        if (hours !== 12) {
+                            hours -= 12;
+                        }
+                    } else if (hours === 0) hours += 12;
+                    let minutes = date.getMinutes(); // 분도 받아옵니다.
+                    let seconds = date.getSeconds(); // 초까지 받아온후
                     // clockTarget .innerText = `${year}년 ${month+1}월 ${clockDate}일 ${week[day]}요일` +
                     //     `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes }`  : minutes }:${seconds < 10 ? `0${seconds }`  : seconds }`;
                     dateTarget .innerText = `${month+1} / ${clockDate} \(${week[day]}\)`;
-                    timeTarget .innerText = ` ${hours < 10 ? `0${hours}` : hours} : ${minutes < 10 ? `0${minutes }`  : minutes } : ${seconds < 10 ? `0${seconds }`  : seconds }`;
+                    timeTarget .innerText = ` ${ampm} ${hours < 10 ? `0${hours}` : hours} : ${minutes < 10 ? `0${minutes }`  : minutes } : ${seconds < 10 ? `0${seconds }`  : seconds }`;
                     // 월은 0부터 1월이기때문에 +1일을 해주고
                     // 시간 분 초는 한자리수이면 시계가 어색해보일까봐 10보다 작으면 앞에0을 붙혀주는 작업을 3항연산으로 했습니다.
                 }
@@ -51,6 +58,7 @@
                 init();
             </script>
         </div>
+
         <div id="left">
             <div id="movie">
                 <sectionName>동영상</sectionName>
