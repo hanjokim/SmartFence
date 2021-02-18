@@ -7,14 +7,15 @@
 }
 #clock {
     font-size: 2em;
+    font-weight: bold;
     text-align: center;
     text-shadow: 2px 2px 3px gray;
 }
 #date {
-    color: cornflowerblue;
+    color: crimson;
 }
 #time {
-    color: lightcoral;
+    color: crimson;
 }
 #container {
     width:100%;
@@ -67,7 +68,7 @@ header.logo {
 #left > div > sectionName, #right > div > sectionName {
     font-size:2em;
     font-weight: bold;
-    color: crimson;
+    color: darkslategrey;
     text-shadow:2px 2px 3px gray;
     padding-top: 0.3em;
     padding-bottom: 0.1em;
