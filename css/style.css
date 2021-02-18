@@ -38,8 +38,8 @@ header > div {
     vertical-align: middle;
 }
 header > div > img {
-    object-fit: contain;
     max-height: 5em;
+    object-fit: contain;
     align-items: center;
 }
 header.logo {
