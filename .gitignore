@@ -4,5 +4,5 @@
 # Editor-based HTTP Client requests
 /httpRequests/
 # Current Project
-media/
+*.mp4
 .idea/
