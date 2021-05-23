@@ -31,7 +31,7 @@ app.use(express.static('public'));
 
 
 app.get('/data.redirect', function (request, response) {
-    // var apiUrl = 'http://apis.data.go.kr/6280000/busArrivalService/getAllRouteBusArrivalList?bstopId='
+    // var url = 'http://apis.data.go.kr/6280000/busArrivalService/getAllRouteBusArrivalList?bstopId='
     // + apiData.bstopId + '&serviceKey=' + apiData.serviceKey + '&numOfRows=100&pageNo=1';
     if (url) {
         http.get(url, function (web) {
