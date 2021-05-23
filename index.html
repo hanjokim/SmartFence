@@ -48,8 +48,8 @@
                     let seconds = date.getSeconds(); // 초까지 받아온후
                     // clockTarget .innerText = `${year}년 ${month+1}월 ${clockDate}일 ${week[day]}요일` +
                     //     `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes }`  : minutes }:${seconds < 10 ? `0${seconds }`  : seconds }`;
-                    dateTarget .innerText = `${month+1} / ${clockDate} \(${week[day]}\)`;
-                    timeTarget .innerText = ` ${ampm} ${hours < 10 ? `0${hours}` : hours} : ${minutes < 10 ? `0${minutes }`  : minutes } : ${seconds < 10 ? `0${seconds }`  : seconds }`;
+                    dateTarget.innerText = `${month+1} / ${clockDate} \(${week[day]}\)`;
+                    timeTarget.innerText = ` ${ampm} ${hours < 10 ? `0${hours}` : hours} : ${minutes < 10 ? `0${minutes }`  : minutes } : ${seconds < 10 ? `0${seconds }`  : seconds }`;
                     // 월은 0부터 1월이기때문에 +1일을 해주고
                     // 시간 분 초는 한자리수이면 시계가 어색해보일까봐 10보다 작으면 앞에0을 붙혀주는 작업을 3항연산으로 했습니다.
                 }
@@ -68,7 +68,7 @@
             <div id="movie">
                 <sectionName>동영상</sectionName>
 <!--                <video src="media/1.mp4" autoplay loop muted width="100%"></video>-->
-                <video src="media/2.mp4" autoplay loop muted width="100%"></video>
+                <video src="media/1.mp4" autoplay loop muted width="100%"></video>
             </div>
             <hr>
             <div id="news">
