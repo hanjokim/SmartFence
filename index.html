@@ -22,8 +22,8 @@
             <hr>
         </header>
         <div id="clock">
-            <span id="date">2021년 02월 17일</span>
-            <span id="time">오전 12:00:00</span>
+            <span id="date"></span>
+            <span id="time"></span>
             <script>
                 // var clockTarget = document.getElementById("clock");
                 var dateTarget = document.getElementById("date");
@@ -94,7 +94,7 @@
                     <li>2021/03/18 2021년 통장 자녀 장학금 신청 안내</li>
                     <li>2021/03/18 2021년 인천시 서구 서구메이트 2기 모집 안내</li>
                     <li>2021/03/18 2021년 인천시 서구 SNS 서포터즈 3기 모집 안내</li>
-                    <li>2021/03/15 소상공인 버팀목자금 2차 신속지급 및 확인지급 안내</li>
+<!--                    <li>2021/03/15 소상공인 버팀목자금 2차 신속지급 및 확인지급 안내</li>-->
                 </ul>
             </div>
         </div>
@@ -368,6 +368,16 @@
                     //     g.refresh($(this).text())
                     // })
                     // }
+                    setInterval(function (){
+                        temp = getRandomInt(0, 40);
+                        hum = getRandomInt(0, 90);
+                        fdust = getRandomInt(0, 150);
+                        ufdust = getRandomInt(0, 80);
+                        g1.refresh(temp);
+                        g2.refresh(hum);
+                        g3.refresh(fdust);
+                        g4.refresh(ufdust);
+                    }, 1000);
                 </script>
             </div>
             <hr>
