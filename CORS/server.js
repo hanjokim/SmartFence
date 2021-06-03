@@ -1,5 +1,4 @@
-﻿// 모듈을 추출합니다.
-var http = require('http');
+﻿var http = require('http');
 var express = require('express');
 var baseUrl = 'http://apis.data.go.kr/6280000/busArrivalService/';
 var apiUrl = {

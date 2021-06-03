@@ -9,13 +9,13 @@
 <body>
     <div id="container">
         <header>
-            <div style="width: 20%; display: block;">
+            <div id="leftLogo">
                 <img style="display: inline" src="media/logo_seogu.jpg" class="logo" alt="Seogu Logo" >
             </div>
-            <div style="width: 60%">
+            <div id="mainTitle">
                 <h1>스마트펜스 정보 시스템</h1>
             </div>
-            <div style="width: 20%; display: block">
+            <div id="rightLogo">
                 <img style="display: inline" src="media/logo_pure.png" class="logo" alt="Pureecotech Logo">
             </div>
             <div style="clear: both"></div>
@@ -106,6 +106,7 @@
                         '165000059': '202',
                         '165000238': '2-1',
                         '165000328': '72',
+                        '165000441': '43',
                         '165000507': '44',
                         '166000010': '급행91',
                         '168000038': '인천e음85',
@@ -274,23 +275,24 @@
             <hr>
             <div id="atm">
                 <sectionName>대기정보</sectionName>
+                <link rel="stylesheet" href="css/atm.css">
                 <table>
                     <tr>
                         <td>
 <!--                            <span id=calcValue1></span>-->
-                            <div style="width: 100%; height: auto;" id="gauge1"></div>
+                            <div class="atmGauge" id="gauge1"></div>
                         </td>
                         <td>
 <!--                            <span id=calcValue2></span>-->
-                            <div style="width: 100%; height: auto" id="gauge2"></div>
+                            <div class="atmGauge" id="gauge2"></div>
                         </td>
                         <td>
 <!--                            <span id=calcValue3></span>-->
-                            <div style="width: 100%; height: auto" id="gauge3"></div>
+                            <div class="atmGauge" id="gauge3"></div>
                         </td>
                          <td>
 <!--                            <span id=calcValue4></span>-->
-                            <div style="width: 100%; height: auto" id="gauge4"></div>
+                            <div class="atmGauge" id="gauge4"></div>
                         </td>
                     </tr>
                 </table>
@@ -307,12 +309,12 @@
                     //////////////////////////////gauge 1
                     // init = function(){
 
-                    let temp = "-7";
-                    let hum = "24";
-                    let fdust = "15";
-                    let ufdust = "10";
+                    let temp = "26";
+                    let hum = "47";
+                    let fdust = "80";
+                    let ufdust = "30";
 
-                    var g = new JustGage({
+                    var g1 = new JustGage({
                         id: "gauge1",
                         value: temp,
                         min: -20,
@@ -326,7 +328,7 @@
                     //     g.refresh($(this).text())
                     // })
                     ////////////////////////////////gauge 2
-                    var g = new JustGage({
+                    var g2 = new JustGage({
                         id: "gauge2",
                         value: hum,
                         min: 0,
@@ -339,7 +341,7 @@
                     //     g.refresh($(this).text())
                     // })
                     ////////////////////////////////gauge 3
-                    var g = new JustGage({
+                    var g3 = new JustGage({
                         id: "gauge3",
                         value: fdust,
                         min: 0,
@@ -353,7 +355,7 @@
                     // })
                     // }
                     ////////////////////////////////gauge 4
-                    var g = new JustGage({
+                    var g4 = new JustGage({
                         id: "gauge4",
                         value: ufdust,
                         min: 0,
