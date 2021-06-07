@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>redirect Client</title>
+  <script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $.ajax({
+        type: 'get',
+        url: '/data.redirect',
+
+        success: function (data) {
+          $('body').text(data);
+        },
+        error: function(xhr,status,error) {
+          //오류 발생 시 처리
+          $('body').text(status);
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+</body>
+</html>
