@@ -33,7 +33,7 @@
                     }
                 } else if (hours === 0) {
                     hours += 12
-                };
+                }
 
                 hours = leadingZeros(hours, 2);
                 minutes = leadingZeros(minutes, 2);
@@ -90,6 +90,22 @@
                     alert(status);
                 }
             });
+
+            /*
+            // 남은 시간 순 정렬
+            var cars = [
+                { type: 'Volvo', year: 2016 },
+                { type: 'Saab', year: 2001 },
+                { type: 'BMW', year: 2010 },
+            ];
+            var result;
+
+            // Year int 값의 크기순으로 정렬
+            result = cars.sort(function (a, b) {
+                return a.year - b.year;
+            });
+            */
+
 
             var xmlDoc = parser.parseFromString(xmlString, "text/xml");
             var x = xmlDoc.getElementsByTagName("ROUTEID");
