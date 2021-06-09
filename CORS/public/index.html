@@ -112,28 +112,27 @@
                 }
             });
 
-            /*
-            // 남은 시간 순 정렬
-            var cars = [
-                { type: 'Volvo', year: 2016 },
-                { type: 'Saab', year: 2001 },
-                { type: 'BMW', year: 2010 },
-            ];
-            var result;
-
-            // Year int 값의 크기순으로 정렬
-            result = cars.sort(function (a, b) {
-                return a.year - b.year;
-            });
-            */
-
-
             var xmlDoc = parser.parseFromString(xmlString, "text/xml");
 
             var inBusArray = getArrivalBusInfo(xmlDoc);
-            console.log(inBusArray);
 
-            // 버스 도착 정보 : xmlDoc -> inBusArray
+            // 버스 도착 정보 출력
+            outputBusArrivalInfo(inBusArray);
+
+            function outputBusArrivalInfo(inBusArray){
+                var cell = "#cell";
+                var rowNo = 1;
+                for (var bus of inBusArray){
+                    $(cell+'1_'+rowNo).html(routeNo[bus.routeId]);
+                    $(cell+'2_'+rowNo).html(bus.eta > 60 ? parseInt(bus.eta/60) + ' 분' : "곧 도착");
+                    $(cell+'3_'+rowNo).html(bus.numPlate);
+                    $(cell+'4_'+rowNo).html(bus.restStopCount + " 정류장 전");
+
+                    rowNo++;
+                }
+            }
+
+            // 버스 도착 정보 분석 및 도착 시간 순 정렬 : xmlDoc -> inBusArray
             function getArrivalBusInfo(xmlDoc) {
                 var busArray = [];
 
@@ -156,7 +155,7 @@
                 });
                 return sortedResult;
             }
-
+/*
                 var x = xmlDoc.getElementsByTagName("ROUTEID");
                 var y = null;
                 var z = null;
@@ -189,7 +188,7 @@
                     z = y.nodeValue;
                     $('#cell4_' + (i + 1)).html(z);
                 }
-
+*/
 
             //     var x = xmlDoc.getElementsByTagName("ROUTEID");
             //     var y = null;
