@@ -9,10 +9,9 @@
     <script>
         $(document).ready(function (){
 
-
             // 시간 표시 부분
-            var $dateTarget = $("#date");
-            var $timeTarget = $("#time");
+            const $dateTarget = $("#date");
+            const $timeTarget = $("#time");
 
             function clock() {
                 let date = new Date(); // date Object를 받아오고
@@ -45,11 +44,11 @@
             }
 
             function leadingZeros(n, digits) {
-                var zero = '';
+                let zero = '';
                 n = n.toString();
 
                 if (n.length < digits) {
-                    for (var i = 0; i < digits - n.length; i++)
+                    for (let i = 0; i < digits - n.length; i++)
                         zero += '0';
                 }
                 return zero + n;
@@ -74,7 +73,7 @@
                 '168000038': '인천e음85',
             };
 
-            var xmlString = null;
+            let xmlString = null;
             let parser = new DOMParser();
 
 
@@ -106,23 +105,38 @@
                 success: function (data) {
                     xmlString = data;
                 },
-                error: function(xhr,status,error) {
-                    //오류 발생 시 처리
-                    alert(status);
+                error: function(xhr, status, error){
+                    alert("code = "+ xhr.status + " message = " + xhr.responseText + " error = " + error); // 실패 시 처리
+                    if(xhr.status === 0){
+                        alert('You are offline!!n Please Check Your Network.');
+                    }else if(xhr.status === 404){
+                        alert('Requested URL not found.');
+                    }else if(xhr.status === 500){
+                        alert('Internel Server Error.');
+                    }else if(error === 'parsererror'){
+                        alert('Error.nParsing JSON Request failed.');
+                    }else if(error === 'timeout'){
+                        alert('Request Time out.');
+                    }else {
+                        alert('Unknown Error.n' + xhr.responseText);
+                    }
+                },
+                complete : function(data) {
+                    //  실패했어도 완료가 되었을 때 처리
                 }
             });
 
-            var xmlDoc = parser.parseFromString(xmlString, "text/xml");
+            const xmlObj = parser.parseFromString(xmlString, "text/xml");
 
-            var inBusArray = getArrivalBusInfo(xmlDoc);
+            let inBusArray = getArrivalBusInfo(xmlObj);
 
             // 버스 도착 정보 출력
             outputBusArrivalInfo(inBusArray);
 
             function outputBusArrivalInfo(inBusArray){
-                var cell = "#cell";
-                var rowNo = 1;
-                for (var bus of inBusArray){
+                let cell = "#cell";
+                let rowNo = 1;
+                for (let bus of inBusArray){
                     $(cell+'1_'+rowNo).html(routeNo[bus.routeId]);
                     $(cell+'2_'+rowNo).html(bus.eta > 60 ? parseInt(bus.eta/60) + ' 분' : "곧 도착");
                     $(cell+'3_'+rowNo).html(bus.numPlate);
@@ -132,17 +146,17 @@
                 }
             }
 
-            // 버스 도착 정보 분석 및 도착 시간 순 정렬 : xmlDoc -> inBusArray
-            function getArrivalBusInfo(xmlDoc) {
-                var busArray = [];
+            // 버스 도착 정보 분석 및 도착 시간 순 정렬 : xmlObj -> busArray
+            function getArrivalBusInfo(xmlObj) {
+                let busArray = [];
 
-                var items = xmlDoc.getElementsByTagName("itemList");
-                for (var item of items) {
-                    var routeId = item.getElementsByTagName("ROUTEID")[0].childNodes[0].nodeValue;
-                    var eta = parseInt(item.getElementsByTagName("ARRIVALESTIMATETIME")[0].childNodes[0].nodeValue);
-                    var numPlate = item.getElementsByTagName("BUS_NUM_PLATE")[0].childNodes[0].nodeValue;
-                    var restStopCount = item.getElementsByTagName("REST_STOP_COUNT")[0].childNodes[0].nodeValue;
-                    var inBus = {
+                let items = xmlObj.getElementsByTagName("itemList");
+                for (let item of items) {
+                    let routeId = item.getElementsByTagName("ROUTEID")[0].childNodes[0].nodeValue;
+                    let eta = parseInt(item.getElementsByTagName("ARRIVALESTIMATETIME")[0].childNodes[0].nodeValue);
+                    let numPlate = item.getElementsByTagName("BUS_NUM_PLATE")[0].childNodes[0].nodeValue;
+                    let restStopCount = item.getElementsByTagName("REST_STOP_COUNT")[0].childNodes[0].nodeValue;
+                    let inBus = {
                         routeId: routeId,
                         eta: eta,
                         numPlate: numPlate,
@@ -150,84 +164,12 @@
                     };
                     busArray.push(inBus);
                 }
-                sortedResult = busArray.sort(function (a, b) {
+                busArray = busArray.sort(function (a, b) {
                     return a.eta - b.eta;
                 });
-                return sortedResult;
+                return busArray;
             }
-/*
-                var x = xmlDoc.getElementsByTagName("ROUTEID");
-                var y = null;
-                var z = null;
 
-                for (let i = 0; i < x.length; i++) {
-                    y = x[i].childNodes[0];
-                    z = y.nodeValue;
-                    $('#cell1_' + (i + 1)).html(routeNo[z]);
-                }
-                x = xmlDoc.getElementsByTagName("ARRIVALESTIMATETIME");
-                // console.log(x);
-                for (let i = 0; i < x.length; i++) {
-                    y = x[i].childNodes[0];
-                    z = Number(y.nodeValue) / 60; // 초단위
-                    let wait = '곧 도착';
-                    if (z > 1) {
-                        wait = String(parseInt(z)) + '분';
-                    }
-                    $('#cell2_' + (i + 1)).html(wait);
-                }
-                x = xmlDoc.getElementsByTagName("BUS_NUM_PLATE");
-                for (let i = 0; i < x.length; i++) {
-                    y = x[i].childNodes[0];
-                    z = y.nodeValue;
-                    $('#cell3_' + (i + 1)).html(z);
-                }
-                x = xmlDoc.getElementsByTagName("REST_STOP_COUNT");
-                for (let i = 0; i < x.length; i++) {
-                    y = x[i].childNodes[0];
-                    z = y.nodeValue;
-                    $('#cell4_' + (i + 1)).html(z);
-                }
-*/
-
-            //     var x = xmlDoc.getElementsByTagName("ROUTEID");
-            //     var y = null;
-            //     var z = null;
-            //     // console.log(x);
-            //     for (let i = 0; i < x.length; i++) {
-            //         y = x[i].childNodes[0];
-            //         z = y.nodeValue;
-            //         console.log(routeNo[z]);
-            //         $('#cell1_' + (i + 1)).html(routeNo[z]);
-            //         // document.getElementById('cell1_'+String(i+1)).innerHTML = routeNo[z];
-            //     }
-            //     x = xmlDoc.getElementsByTagName("ARRIVALESTIMATETIME");
-            //     // console.log(x);
-            //     for (let i = 0; i < x.length; i++) {
-            //         y = x[i].childNodes[0];
-            //         z = Number(y.nodeValue) / 60; // 초단위
-            //         let wait = '곧 도착';
-            //         if (z > 1) {
-            //             wait = String(parseInt(z)) + '분';
-            //         }
-            //         $('#cell2_' + (i + 1)).html(wait);
-            //         // document.getElementById('cell2_'+String(i+1)).innerHTML = wait;
-            //     }
-            //     x = xmlDoc.getElementsByTagName("BUS_NUM_PLATE");
-            //     for (let i = 0; i < x.length; i++) {
-            //         y = x[i].childNodes[0];
-            //         z = y.nodeValue;
-            //         // console.log(z);
-            //         $('#cell3_' + (i + 1)).html(z);
-            //         // document.getElementById('cell3_'+String(i+1)).innerHTML = z;
-            //     }
-            //     x = xmlDoc.getElementsByTagName("REST_STOP_COUNT");
-            //     for (let i = 0; i < x.length; i++) {
-            //         y = x[i].childNodes[0];
-            //         z = y.nodeValue;
-            //         $('#cell4_' + (i + 1)).html(z);
-            //         // document.getElementById('cell4_'+String(i+1)).innerHTML = z + ' 정류장 전';
-            //     }
         })
     </script>
 
