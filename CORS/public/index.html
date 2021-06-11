@@ -8,6 +8,7 @@
     <script src="./jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function (){
+            let parser = new DOMParser();
 
             // 시간 표시 부분
             const $dateTarget = $("#date");
@@ -75,10 +76,38 @@
                 '168000038': '인천e음85',
             };
 
-            // function getRouteNo(bstopId);
+            /*
+            let routeNo = {};
+
+            getRouteNo();
+
+            function getRouteNo(){
+                $.ajax({
+                    type: 'get',
+                    url: '/data.getBusStationViaRouteList',
+                    async: false,
+
+                    success: function (data){
+                        const obj = parser.parseFromString(data, "text/xml");
+
+                        let items = obj.getElementsByTagName("itemList");
+                        console.log(items);
+                        for (let item of items) {
+                            console.log(item);
+                            let routeId = item.getElementsByTagName("ROUTEID")[0].childNodes[0].nodeValue;
+                            let busRouteNum = item.getElementsByTagName("ROUTENO")[0].childNodes[0].nodeValue;
+
+                            routeNo[routeId] = busRouteNum;
+                        }
+                    },
+                    error:  function (){
+                        alert("Failed to get bus station information.");
+                    }
+                });
+            }
+            */
 
             let xmlString = null;
-            let parser = new DOMParser();
 
             // 버스 도착 정보 받아오기
             bisInit(30);
@@ -91,7 +120,7 @@
             function getBusSchedule(){
                 let promise = $.ajax({
                     type: 'get',
-                    url: '/data.redirect',
+                    url: '/data.getAllRouteBusArrivalList',
 
                 });
 

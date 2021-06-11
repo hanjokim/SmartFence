@@ -10,7 +10,7 @@ var apiUrl = {
     getBusRouteLocation: baseUrl + 'getBusRouteLocation', // 버스위치정보 목록 조회: serviceKey, numOfRows, pageNo, routeId
     getBusStationNmList: baseUrl + '', // 정류소명목록 조회: serviceKey, numOfRows, pageNo, bstopNm
     getBusStationIdList: baseUrl + '', // 정류소번호목록 조회: serviceKey, numOfRows, pageNo, bstopId
-    getBusStationViaRouteList: baseUrl + '', // 정류소경유노선 목록 조회: serviceKey, numOfRows, pageNo, bstopId
+    getBusStationViaRouteList: baseUrl + 'getBusStationViaRouteList', // 정류소경유노선 목록 조회: serviceKey, numOfRows, pageNo, bstopId
     getBusStationAroundList: baseUrl + '', // 주변정류소 목록 조회: serviceKey, numOfRows, pageNo, LAT, LNG
 };
 var apiData = {
@@ -21,7 +21,8 @@ var apiData = {
 };
 
 var payloadString = Object.entries(apiData).map(e => e.join('=')).join('&');
-var url = apiUrl.getAllRouteBusArrivalList + '?' + payloadString;
+var busArrivalQueryUrl = apiUrl.getAllRouteBusArrivalList + '?' + payloadString;
+var busNumQueryUrl = apiUrl.getBusStationViaRouteList + '?' + payloadString;
 // 웹 서버를 생성합니다.
 
 var app = express();
@@ -29,11 +30,31 @@ app.use(express.static('public'));
 // 웹 서버를 라우트합니다.
 
 
-app.get('/data.redirect', function (request, response) {
-    // var url = 'http://apis.data.go.kr/6280000/busArrivalService/getAllRouteBusArrivalList?bstopId='
+app.get('/data.getAllRouteBusArrivalList', function (request, response) {
+    // var queryUrl = 'http://apis.data.go.kr/6280000/busArrivalService/getAllRouteBusArrivalList?bstopId='
     // + apiData.bstopId + '&serviceKey=' + apiData.serviceKey + '&numOfRows=100&pageNo=1';
-    if (url) {
-        http.get(url, function (web) {
+    if (busArrivalQueryUrl) {
+        http.get(busArrivalQueryUrl, function (web) {
+            // 데이터를 읽을 때마다
+            web.on('data', function (buffer) {
+                response.write(buffer);
+            });
+
+            // 데이터를 모두 읽으면
+            web.on('end', function () {
+                response.end();
+            });
+        });
+    } else {
+        response.send('url 속성이 정의되지 않았습니다.');
+    }
+});
+
+app.get('/data.getBusStationViaRouteList', function (request, response) {
+    // var queryUrl = 'http://apis.data.go.kr/6280000/busArrivalService/getBusStationViaRouteList?bstopId='
+    // + apiData.bstopId + '&serviceKey=' + apiData.serviceKey + '&numOfRows=100&pageNo=1';
+    if (busNumQueryUrl) {
+        http.get(busNumQueryUrl, function (web) {
             // 데이터를 읽을 때마다
             web.on('data', function (buffer) {
                 response.write(buffer);

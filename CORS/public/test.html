@@ -7,7 +7,7 @@
     $(document).ready(function () {
       $.ajax({
         type: 'get',
-        url: '/data.redirect',
+        url: '/data.getBusStationViaRouteList',
 
         success: function (data) {
           $('body').text(data);
