@@ -12,6 +12,8 @@
             // 시간 표시 부분
             const $dateTarget = $("#date");
             const $timeTarget = $("#time");
+            let clockTimerId = -1;
+            let bisTimerId = -1;
 
             function clock() {
                 let date = new Date(); // date Object를 받아오고
@@ -56,7 +58,7 @@
 
             function clockInit() {
                 clock(); // 최초에 함수를 한번 실행시켜주고
-                setInterval(clock, 1000); // setInterval이라는 함수로 매초마다 실행을 해줍니다.
+                clocktimerId = setInterval(clock, 1000); // setInterval이라는 함수로 매초마다 실행을 해줍니다.
                 // setInterval은 첫번째 파라메터는 함수이고 두번째는 시간인데 밀리초단위로 받습니다. 1000 = 1초
             }
 
@@ -76,62 +78,45 @@
             let xmlString = null;
             let parser = new DOMParser();
 
+            bisInit();
 
-            /*
-            // 버스정보 API 호출 : apiSting -> xmlString
-            function callBusInfoApi(apiString){
-                $.ajax({
+            function bisInit() {
+                getBusSchedule();
+                bisTimerId = setInterval(getBusSchedule, 30 * 1000);
+            }
+
+            function getBusSchedule(){
+                let promise = $.ajax({
                     type: 'get',
                     url: '/data.redirect',
-                    async: false,
 
-                    success: function (data) {
-                        xmlString = data;
-                    },
-                    error: function(xhr,status,error) {
-                        //오류 발생 시 처리
-                        alert(status);
-                    }
                 });
-                return xmlString;
-            }
-            */
 
-            $.ajax({
-                type: 'get',
-                url: '/data.redirect',
-                async: false,
-
-                success: function (data) {
+                promise.done(function (data) {
                     xmlString = data;
-                },
-                error: function(xhr, status, error){
-                    alert("code = "+ xhr.status + " message = " + xhr.responseText + " error = " + error); // 실패 시 처리
-                    if (xhr.status === 0){
+                    const xmlObj = parser.parseFromString(xmlString, "text/xml");
+                    let inBusArray = getArrivalBusInfo(xmlObj);
+
+                    outputBusArrivalInfo(inBusArray);
+                });
+                promise.fail(function (xhr, status, error) {
+                    alert("code = " + xhr.status + " message = " + xhr.responseText + " error = " + error); // 실패 시 처리
+                    if (xhr.status === 0) {
                         alert('You are offline!!n Please Check Your Network.');
-                    } else if (xhr.status === 404){
+                    } else if (xhr.status === 404) {
                         alert('Requested URL not found.');
-                    } else if (xhr.status === 500){
+                    } else if (xhr.status === 500) {
                         alert('Internel Server Error.');
-                    } else if (error === 'parsererror'){
+                    } else if (error === 'parsererror') {
                         alert('Error.nParsing JSON Request failed.');
-                    } else if (error === 'timeout'){
+                    } else if (error === 'timeout') {
                         alert('Request Time out.');
                     } else {
                         alert('Unknown Error.n' + xhr.responseText);
                     }
-                },
-                complete : function(data) {
-                    //  실패했어도 완료가 되었을 때 처리
-                }
-            });
-
-            const xmlObj = parser.parseFromString(xmlString, "text/xml");
-
-            let inBusArray = getArrivalBusInfo(xmlObj);
-
-            // 버스 도착 정보 출력
-            outputBusArrivalInfo(inBusArray);
+                });
+                promise.always();
+            }
 
             function outputBusArrivalInfo(inBusArray){
                 let cell = "#cell";
