@@ -92,9 +92,7 @@
                         const obj = parser.parseFromString(data, "text/xml");
 
                         let items = obj.getElementsByTagName("itemList");
-                        console.log(items);
                         for (let item of items) {
-                            console.log(item);
                             let routeId = item.getElementsByTagName("ROUTEID")[0].childNodes[0].nodeValue;
                             let busRouteNum = item.getElementsByTagName("ROUTENO")[0].childNodes[0].nodeValue;
 
