@@ -66,6 +66,7 @@
             clockInit();
 
             // BIS
+            /*
             const routeNo = {
                 '165000059': '202',
                 '165000238': '2-1',
@@ -75,8 +76,8 @@
                 '166000010': '급행91',
                 '168000038': '인천e음85',
             };
+            */
 
-            /*
             let routeNo = {};
 
             getRouteNo();
@@ -84,7 +85,7 @@
             function getRouteNo(){
                 $.ajax({
                     type: 'get',
-                    url: '/data.getBusStationViaRouteList',
+                    url: '/getBusStationViaRouteList',
                     async: false,
 
                     success: function (data){
@@ -105,7 +106,7 @@
                     }
                 });
             }
-            */
+
 
             let xmlString = null;
 
@@ -120,7 +121,7 @@
             function getBusSchedule(){
                 let promise = $.ajax({
                     type: 'get',
-                    url: '/data.getAllRouteBusArrivalList',
+                    url: '/getAllRouteBusArrivalList',
 
                 });
 

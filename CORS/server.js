@@ -1,17 +1,23 @@
 ﻿var http = require('http');
 var express = require('express');
-var baseUrl = 'http://apis.data.go.kr/6280000/busArrivalService/';
+var baseUrl = 'http://apis.data.go.kr/6280000/';
+var apiNames = {
+    arr: 'busArrivalService',
+    loc: 'busLocationService',
+    rou: 'busRouteService',
+    sta: 'busStationService'
+};
 var apiUrl = {
-    getAllRouteBusArrivalList: baseUrl + 'getAllRouteBusArrivalList', // 버스도착정보목록조회: serviceKey, numOfRows, pageNo, bstopId
-    getBusArrivalList: baseUrl + '', // 버스도착정보항목조회: serviceKey, numOfRows, pageNo, bstopId, routeId
-    getBusRouteSectionList: baseUrl + 'getBusRouteSectionList', // 경유 정류소 목록 조회: serviceKey, numOfRows, pageNo, routeId
-    getBusRouteId : baseUrl + 'getBusRouteId', // 노선정보항목 조회: serviceKey, numOfRows, pageNo, routeId
-    getBusRouteNo : baseUrl + 'getBusRouteNo', // 노선번호목록 조회: serviceKey, numOfRows, pageNo, routeId
-    getBusRouteLocation: baseUrl + 'getBusRouteLocation', // 버스위치정보 목록 조회: serviceKey, numOfRows, pageNo, routeId
-    getBusStationNmList: baseUrl + '', // 정류소명목록 조회: serviceKey, numOfRows, pageNo, bstopNm
-    getBusStationIdList: baseUrl + '', // 정류소번호목록 조회: serviceKey, numOfRows, pageNo, bstopId
-    getBusStationViaRouteList: baseUrl + 'getBusStationViaRouteList', // 정류소경유노선 목록 조회: serviceKey, numOfRows, pageNo, bstopId
-    getBusStationAroundList: baseUrl + '', // 주변정류소 목록 조회: serviceKey, numOfRows, pageNo, LAT, LNG
+    getAllRouteBusArrivalList: baseUrl + apiNames.arr + '/getAllRouteBusArrivalList', // 버스도착정보목록조회(arr): serviceKey, numOfRows, pageNo, bstopId
+    getBusArrivalList: baseUrl + apiNames.arr + '', // 버스도착정보항목조회(arr): serviceKey, numOfRows, pageNo, bstopId, routeId
+    getBusRouteSectionList: baseUrl + apiNames.rou + '/getBusRouteSectionList', // 경유 정류소 목록 조회(rou): serviceKey, numOfRows, pageNo, routeId
+    getBusRouteId : baseUrl + apiNames.rou + '/getBusRouteId', // 노선정보항목 조회(rou): serviceKey, numOfRows, pageNo, routeId
+    getBusRouteNo : baseUrl + + apiNames.rou + '/getBusRouteNo', // 노선번호목록 조회(rou): serviceKey, numOfRows, pageNo, routeId
+    getBusRouteLocation: baseUrl + apiNames.loc + '/getBusRouteLocation', // 버스위치정보 목록 조회(loc): serviceKey, numOfRows, pageNo, routeId
+    getBusStationNmList: baseUrl + apiNames.sta + '', // 정류소명목록 조회(sta): serviceKey, numOfRows, pageNo, bstopNm
+    getBusStationIdList: baseUrl + apiNames.sta + '', // 정류소번호목록 조회(sta): serviceKey, numOfRows, pageNo, bstopId
+    getBusStationViaRouteList: baseUrl + apiNames.sta + '/getBusStationViaRouteList', // 정류소경유노선 목록 조회(sta): serviceKey, numOfRows, pageNo, bstopId
+    getBusStationAroundList: baseUrl + apiNames.sta + '', // 주변정류소 목록 조회(sta): serviceKey, numOfRows, pageNo, LAT, LNG
 };
 var apiData = {
     serviceKey: 'dU7dvWQUG8tftP9%2FNQlBADY5gjT5ZpS6xWVIZ%2Fwxr26jXjuJZlrLgExQvtyIaCfiioEJWez5DJ%2FcdIWAAFrctQ%3D%3D',
@@ -30,7 +36,7 @@ app.use(express.static('public'));
 // 웹 서버를 라우트합니다.
 
 
-app.get('/data.getAllRouteBusArrivalList', function (request, response) {
+app.get('/getAllRouteBusArrivalList', function (request, response) {
     // var queryUrl = 'http://apis.data.go.kr/6280000/busArrivalService/getAllRouteBusArrivalList?bstopId='
     // + apiData.bstopId + '&serviceKey=' + apiData.serviceKey + '&numOfRows=100&pageNo=1';
     if (busArrivalQueryUrl) {
@@ -50,7 +56,7 @@ app.get('/data.getAllRouteBusArrivalList', function (request, response) {
     }
 });
 
-app.get('/data.getBusStationViaRouteList', function (request, response) {
+app.get('/getBusStationViaRouteList', function (request, response) {
     // var queryUrl = 'http://apis.data.go.kr/6280000/busArrivalService/getBusStationViaRouteList?bstopId='
     // + apiData.bstopId + '&serviceKey=' + apiData.serviceKey + '&numOfRows=100&pageNo=1';
     if (busNumQueryUrl) {
