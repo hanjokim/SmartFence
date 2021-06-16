@@ -5,22 +5,19 @@ const cheerio = require('cheerio');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 let baseUrl = "https://www.seo.incheon.kr/open_content/main/bbs/bbsMsgList.do?bcd=notice&pgno=";
-let pageNo = 1;
+var objArr = [];
 
-let pageUrl = baseUrl + pageNo;
-
-axios.get(pageUrl)
+axios.get(baseUrl + 1)
     .then(html => {
         const $ = cheerio.load(html.data);
-        var objArr = [];
 
         const articleList = $('table.general_board').find('tbody tr');
         articleList.each(function (i, elem){
             var article = {};
-            var $item = $(elem).find('td');
+            var $col = $(elem).find('td');
 
-            $item.each(function (i, e){
-                switch (i){
+            $col.each(function (j, e){
+                switch (j){
                     case 0:
                         article['no'] = $(e).find('span.wfont').text() || $(e).text().trim();
                         break
@@ -43,9 +40,6 @@ axios.get(pageUrl)
             });
 
             objArr.push(article);
-                // no: $(this).find('td').text().trim().replace(/\t|\n/g, ''),
-
-                // title: $(this).find('td.left').find('a').text(),
 
         });
 
