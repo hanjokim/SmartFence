@@ -1,5 +1,6 @@
 ﻿var http = require('http');
 var express = require('express');
+// const querystring = require('querystring');
 var baseUrl = 'http://apis.data.go.kr/6280000/';
 var apiNames = {
     arr: 'busArrivalService',
@@ -28,6 +29,7 @@ var apiData = {
 
 var payloadString = Object.entries(apiData).map(e => e.join('=')).join('&');
 // var payloadString = $.param(apiData); // jQuery 사용시
+// var payloadString = querystring.stringify(apiData); // querystring 모듈 사용시
 var busArrivalQueryUrl = apiUrl.getAllRouteBusArrivalList + '?' + payloadString;
 var busNumQueryUrl = apiUrl.getBusStationViaRouteList + '?' + payloadString;
 // 웹 서버를 생성합니다.
