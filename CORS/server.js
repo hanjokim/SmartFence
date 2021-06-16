@@ -9,15 +9,15 @@ var apiNames = {
 };
 var apiUrl = {
     getAllRouteBusArrivalList: baseUrl + apiNames.arr + '/getAllRouteBusArrivalList', // 버스도착정보목록조회(arr): serviceKey, numOfRows, pageNo, bstopId
-    getBusArrivalList: baseUrl + apiNames.arr + '', // 버스도착정보항목조회(arr): serviceKey, numOfRows, pageNo, bstopId, routeId
+    getBusArrivalList: baseUrl + apiNames.arr + '/getBusArrivalList', // 버스도착정보항목조회(arr): serviceKey, numOfRows, pageNo, bstopId, routeId
     getBusRouteSectionList: baseUrl + apiNames.rou + '/getBusRouteSectionList', // 경유 정류소 목록 조회(rou): serviceKey, numOfRows, pageNo, routeId
     getBusRouteId : baseUrl + apiNames.rou + '/getBusRouteId', // 노선정보항목 조회(rou): serviceKey, numOfRows, pageNo, routeId
     getBusRouteNo : baseUrl + + apiNames.rou + '/getBusRouteNo', // 노선번호목록 조회(rou): serviceKey, numOfRows, pageNo, routeId
     getBusRouteLocation: baseUrl + apiNames.loc + '/getBusRouteLocation', // 버스위치정보 목록 조회(loc): serviceKey, numOfRows, pageNo, routeId
-    getBusStationNmList: baseUrl + apiNames.sta + '', // 정류소명목록 조회(sta): serviceKey, numOfRows, pageNo, bstopNm
-    getBusStationIdList: baseUrl + apiNames.sta + '', // 정류소번호목록 조회(sta): serviceKey, numOfRows, pageNo, bstopId
+    getBusStationNmList: baseUrl + apiNames.sta + '/getBusStationNmList', // 정류소명목록 조회(sta): serviceKey, numOfRows, pageNo, bstopNm
+    getBusStationIdList: baseUrl + apiNames.sta + '/getBusStationIdList', // 정류소번호목록 조회(sta): serviceKey, numOfRows, pageNo, bstopId
     getBusStationViaRouteList: baseUrl + apiNames.sta + '/getBusStationViaRouteList', // 정류소경유노선 목록 조회(sta): serviceKey, numOfRows, pageNo, bstopId
-    getBusStationAroundList: baseUrl + apiNames.sta + '', // 주변정류소 목록 조회(sta): serviceKey, numOfRows, pageNo, LAT, LNG
+    getBusStationAroundList: baseUrl + apiNames.sta + '/getBusStationAroundList', // 주변정류소 목록 조회(sta): serviceKey, numOfRows, pageNo, LAT, LNG
 };
 var apiData = {
     serviceKey: 'dU7dvWQUG8tftP9%2FNQlBADY5gjT5ZpS6xWVIZ%2Fwxr26jXjuJZlrLgExQvtyIaCfiioEJWez5DJ%2FcdIWAAFrctQ%3D%3D',
