@@ -27,6 +27,7 @@ var apiData = {
 };
 
 var payloadString = Object.entries(apiData).map(e => e.join('=')).join('&');
+// var payloadString = $.param(apiData); // jQuery 사용시
 var busArrivalQueryUrl = apiUrl.getAllRouteBusArrivalList + '?' + payloadString;
 var busNumQueryUrl = apiUrl.getBusStationViaRouteList + '?' + payloadString;
 // 웹 서버를 생성합니다.
