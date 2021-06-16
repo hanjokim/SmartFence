@@ -28,7 +28,7 @@ axios.get(pageUrl)
                         article['title'] = $(e).find('a').text();
                         break
                     case 2:
-                        article['attached'] = $(e).find('a').length != 0 ? true : false;
+                        article['attached'] = $(e).find('a').length !== 0;
                         break
                     case 3:
                         article['author'] = $(e).text();
