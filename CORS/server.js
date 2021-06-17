@@ -9,23 +9,23 @@ const http = require('http');
 const express = require('express');
 // const querystring = require('querystring');
 const bisBaseUrl = 'http://apis.data.go.kr/6280000/';
-const apiNames = {
+const bisApiNames = {
     arr: 'busArrivalService',
     loc: 'busLocationService',
     rou: 'busRouteService',
     sta: 'busStationService'
 };
 const apiUrl = {
-    getAllRouteBusArrivalList: bisBaseUrl + apiNames.arr + '/getAllRouteBusArrivalList', // 버스도착정보목록조회(arr): serviceKey, numOfRows, pageNo, bstopId
-    getBusArrivalList: bisBaseUrl + apiNames.arr + '/getBusArrivalList', // 버스도착정보항목조회(arr): serviceKey, numOfRows, pageNo, bstopId, routeId
-    getBusRouteSectionList: bisBaseUrl + apiNames.rou + '/getBusRouteSectionList', // 경유 정류소 목록 조회(rou): serviceKey, numOfRows, pageNo, routeId
-    getBusRouteId: bisBaseUrl + apiNames.rou + '/getBusRouteId', // 노선정보항목 조회(rou): serviceKey, numOfRows, pageNo, routeId
-    getBusRouteNo: bisBaseUrl + +apiNames.rou + '/getBusRouteNo', // 노선번호목록 조회(rou): serviceKey, numOfRows, pageNo, routeId
-    getBusRouteLocation: bisBaseUrl + apiNames.loc + '/getBusRouteLocation', // 버스위치정보 목록 조회(loc): serviceKey, numOfRows, pageNo, routeId
-    getBusStationNmList: bisBaseUrl + apiNames.sta + '/getBusStationNmList', // 정류소명목록 조회(sta): serviceKey, numOfRows, pageNo, bstopNm
-    getBusStationIdList: bisBaseUrl + apiNames.sta + '/getBusStationIdList', // 정류소번호목록 조회(sta): serviceKey, numOfRows, pageNo, bstopId
-    getBusStationViaRouteList: bisBaseUrl + apiNames.sta + '/getBusStationViaRouteList', // 정류소경유노선 목록 조회(sta): serviceKey, numOfRows, pageNo, bstopId
-    getBusStationAroundList: bisBaseUrl + apiNames.sta + '/getBusStationAroundList', // 주변정류소 목록 조회(sta): serviceKey, numOfRows, pageNo, LAT, LNG
+    getAllRouteBusArrivalList: bisBaseUrl + bisApiNames.arr + '/getAllRouteBusArrivalList', // 버스도착정보목록조회(arr): serviceKey, numOfRows, pageNo, bstopId
+    getBusArrivalList: bisBaseUrl + bisApiNames.arr + '/getBusArrivalList', // 버스도착정보항목조회(arr): serviceKey, numOfRows, pageNo, bstopId, routeId
+    getBusRouteSectionList: bisBaseUrl + bisApiNames.rou + '/getBusRouteSectionList', // 경유 정류소 목록 조회(rou): serviceKey, numOfRows, pageNo, routeId
+    getBusRouteId: bisBaseUrl + bisApiNames.rou + '/getBusRouteId', // 노선정보항목 조회(rou): serviceKey, numOfRows, pageNo, routeId
+    getBusRouteNo: bisBaseUrl + +bisApiNames.rou + '/getBusRouteNo', // 노선번호목록 조회(rou): serviceKey, numOfRows, pageNo, routeId
+    getBusRouteLocation: bisBaseUrl + bisApiNames.loc + '/getBusRouteLocation', // 버스위치정보 목록 조회(loc): serviceKey, numOfRows, pageNo, routeId
+    getBusStationNmList: bisBaseUrl + bisApiNames.sta + '/getBusStationNmList', // 정류소명목록 조회(sta): serviceKey, numOfRows, pageNo, bstopNm
+    getBusStationIdList: bisBaseUrl + bisApiNames.sta + '/getBusStationIdList', // 정류소번호목록 조회(sta): serviceKey, numOfRows, pageNo, bstopId
+    getBusStationViaRouteList: bisBaseUrl + bisApiNames.sta + '/getBusStationViaRouteList', // 정류소경유노선 목록 조회(sta): serviceKey, numOfRows, pageNo, bstopId
+    getBusStationAroundList: bisBaseUrl + bisApiNames.sta + '/getBusStationAroundList', // 주변정류소 목록 조회(sta): serviceKey, numOfRows, pageNo, LAT, LNG
 };
 
 const apiData = {
