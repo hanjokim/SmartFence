@@ -1,7 +1,6 @@
 ﻿const https = require('https');
 https.globalAgent.options.ca = require('ssl-root-cas').create();
 const axios = require('axios');
-const cheerio = require('cheerio');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -47,8 +46,6 @@ app.use(express.static('public'));
 
 // 웹 서버를 라우트합니다.
 app.get('/getAllRouteBusArrivalList', function (request, response) {
-    // var queryUrl = 'http://apis.data.go.kr/6280000/busArrivalService/getAllRouteBusArrivalList?bstopId='
-    // + apiData.bstopId + '&serviceKey=' + apiData.serviceKey + '&numOfRows=100&pageNo=1';
     if (busArrivalQueryUrl) {
         http.get(busArrivalQueryUrl, function (web) {
             // 데이터를 읽을 때마다
@@ -67,8 +64,6 @@ app.get('/getAllRouteBusArrivalList', function (request, response) {
 });
 
 app.get('/getBusStationViaRouteList', function (request, response) {
-    // var queryUrl = 'http://apis.data.go.kr/6280000/busArrivalService/getBusStationViaRouteList?bstopId='
-    // + apiData.bstopId + '&serviceKey=' + apiData.serviceKey + '&numOfRows=100&pageNo=1';
     if (busNumQueryUrl) {
         http.get(busNumQueryUrl, function (web) {
             // 데이터를 읽을 때마다
@@ -97,17 +92,6 @@ app.get('/getSeoguBoard', function (request, response) {
                 response.send(html.data);
             });
 
-        // https.get(boardBaseUrl + pageNo, function (web) {
-        //     // 데이터를 읽을 때마다
-        //     web.on('data', function (buffer) {
-        //         response.write(buffer);
-        //     });
-        //
-        //     // 데이터를 모두 읽으면
-        //     web.on('end', function () {
-        //         response.end();
-        //     });
-        // });
     } else {
         response.send('url 속성이 정의되지 않았습니다.');
     }
