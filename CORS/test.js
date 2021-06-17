@@ -7,7 +7,7 @@ const presentDate = present.getFullYear() + '.' + (present.getMonth()+1) + '.' +
 
 articleDate = articleDate.indexOf(':') > 0 ? presentDate : articleDate;
 
-console.log(myBirthday);
-console.log(present);
+console.log(myBirthday.toString());
+console.log(present.toString());
 console.log(articleDate);
 console.log(parseInt((present - myBirthday)/24/60/60/1000));

@@ -108,7 +108,7 @@
 
             let xmlString = null;
 
-            // 버스 도착 정보 받아오기
+            // 버스 도착 정보 - 갱신 주기로 초기화(초 단위)
             bisInit(30);
 
             function bisInit(intervalSecond) {
@@ -116,6 +116,7 @@
                 bisTimerId = setInterval(getBusSchedule, intervalSecond * 1000);
             }
 
+            // 버스 도착 정보 받아오기
             function getBusSchedule(){
                 let promise = $.ajax({
                     type: 'get',
@@ -149,6 +150,7 @@
                 promise.always();
             }
 
+            // 버스 도착 정보 테이블에 출력
             function outputBusArrivalInfo(inBusArray){
                 let cell = "#cell";
                 let rowNo = 1;
@@ -185,6 +187,71 @@
                 });
                 return busArray;
             }
+
+
+            // 서구청 [새소식] 게시판 목록 표시하기
+            let articleArray = getSeoguBoardArray(1);
+            const maxArticle = 7;
+            console.log(articleArray);
+            articleArray.forEach((item, i) => {
+                $('#article_'+i).html(item.no + ' | ' + item.datetime + ' | ' + item.title + ' | ' + item.author);
+            });
+            // for (let i = 0; i < maxArticle; i++){
+            //     console.log(articleArray[i].no + '|' + articleArray[i].datetime + '|' + articleArray[i].author);
+            //     // $('#article_'+i).innerHTML(articleArray[i].no + '|' + articleArray[i].datetime + '|' + articleArray[i].author);
+            // }
+
+
+            // 서구청 [새소식] 게시판 목록 가져오기(Array)
+            function getSeoguBoardArray(pageNo){
+                let objArr = [];
+                let promise = $.ajax({
+                    type: 'get',
+                    url: '/getSeoguBoard',
+                    async: false,
+                    data: {
+                        pageNo: pageNo,
+                    }
+                })
+                promise.done(function (response){
+                    const htmlDoc = parser.parseFromString(response, 'text/html');
+                    const wrapper = htmlDoc.querySelector('table.general_board');
+                    let articleList = wrapper.querySelectorAll('tbody tr');
+                    [].forEach.call(articleList, function (elem, i){
+                        var article = {};
+                        var $col = $(elem).find('td');
+
+                        $col.each(function (j, e) {
+                            switch (j) {
+                                case 0:
+                                    article['no'] = $(e).find('span.wfont').text() || $(e).text().trim();
+                                    break
+                                case 1:
+                                    article['title'] = $(e).find('a').text();
+                                    break
+                                case 2:
+                                    article['attached'] = $(e).find('a').length !== 0;
+                                    break
+                                case 3:
+                                    article['author'] = $(e).text();
+                                    break
+                                case 4:
+                                    article['datetime'] = $(e).text();
+                                    break
+                                case 5:
+                                    article['hits'] = $(e).text();
+                                    break
+                            }
+                        });
+
+                        objArr.push(article);
+
+                    });
+
+                });
+                return objArr;
+            }
+
 
         })
     </script>
@@ -223,9 +290,7 @@
                 <table class="newsContent">
                     <tbody>
                     <tr>
-                        <td id="news_content">
-                            3월 19일 09시 00분 : [중대본] 2주간 사회적 거리두기 연장됩니다.
-                        </td>
+                        <td id="emergencyMsg">현재는 중요 [뉴스/속보]가 없습니다.</td>
                     </tr>
                     </tbody>
                 </table>
@@ -236,11 +301,13 @@
                 <h2 class="additionalInfo">서구청 홈페이지 [새소식] 게시판을 참고하세요</h2>
                 <link rel="stylesheet" href="css/notice.css">
                 <ul class="sq_bullet">
-                    <li>2021/03/19 지역사랑상품권 부정유통 일제조사 실시계획 공고</li>
-                    <li>2021/03/18 2021년 통장 자녀 장학금 신청 안내</li>
-                    <li>2021/03/18 2021년 인천시 서구 서구메이트 2기 모집 안내</li>
-                    <li>2021/03/18 2021년 인천시 서구 SNS 서포터즈 3기 모집 안내</li>
-<!--                    <li>2021/03/15 소상공인 버팀목자금 2차 신속지급 및 확인지급 안내</li>-->
+                    <li id="article_0"></li>
+                    <li id="article_1"></li>
+                    <li id="article_2"></li>
+                    <li id="article_3"></li>
+                    <li id="article_4"></li>
+                    <li id="article_5"></li>
+                    <li id="article_6"></li>
                 </ul>
             </div>
         </div>
