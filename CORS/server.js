@@ -1,47 +1,48 @@
-﻿const https = require('https');
-https.globalAgent.options.ca = require('ssl-root-cas').create();
+﻿// const https = require('https');
+// https.globalAgent.options.ca = require('ssl-root-cas').create();
 const axios = require('axios');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 
-var http = require('http');
-var express = require('express');
+const http = require('http');
+const express = require('express');
 // const querystring = require('querystring');
-var bisBaseUrl = 'http://apis.data.go.kr/6280000/';
-var apiNames = {
+const bisBaseUrl = 'http://apis.data.go.kr/6280000/';
+const apiNames = {
     arr: 'busArrivalService',
     loc: 'busLocationService',
     rou: 'busRouteService',
     sta: 'busStationService'
 };
-var apiUrl = {
+const apiUrl = {
     getAllRouteBusArrivalList: bisBaseUrl + apiNames.arr + '/getAllRouteBusArrivalList', // 버스도착정보목록조회(arr): serviceKey, numOfRows, pageNo, bstopId
     getBusArrivalList: bisBaseUrl + apiNames.arr + '/getBusArrivalList', // 버스도착정보항목조회(arr): serviceKey, numOfRows, pageNo, bstopId, routeId
     getBusRouteSectionList: bisBaseUrl + apiNames.rou + '/getBusRouteSectionList', // 경유 정류소 목록 조회(rou): serviceKey, numOfRows, pageNo, routeId
-    getBusRouteId : bisBaseUrl + apiNames.rou + '/getBusRouteId', // 노선정보항목 조회(rou): serviceKey, numOfRows, pageNo, routeId
-    getBusRouteNo : bisBaseUrl + + apiNames.rou + '/getBusRouteNo', // 노선번호목록 조회(rou): serviceKey, numOfRows, pageNo, routeId
+    getBusRouteId: bisBaseUrl + apiNames.rou + '/getBusRouteId', // 노선정보항목 조회(rou): serviceKey, numOfRows, pageNo, routeId
+    getBusRouteNo: bisBaseUrl + +apiNames.rou + '/getBusRouteNo', // 노선번호목록 조회(rou): serviceKey, numOfRows, pageNo, routeId
     getBusRouteLocation: bisBaseUrl + apiNames.loc + '/getBusRouteLocation', // 버스위치정보 목록 조회(loc): serviceKey, numOfRows, pageNo, routeId
     getBusStationNmList: bisBaseUrl + apiNames.sta + '/getBusStationNmList', // 정류소명목록 조회(sta): serviceKey, numOfRows, pageNo, bstopNm
     getBusStationIdList: bisBaseUrl + apiNames.sta + '/getBusStationIdList', // 정류소번호목록 조회(sta): serviceKey, numOfRows, pageNo, bstopId
     getBusStationViaRouteList: bisBaseUrl + apiNames.sta + '/getBusStationViaRouteList', // 정류소경유노선 목록 조회(sta): serviceKey, numOfRows, pageNo, bstopId
     getBusStationAroundList: bisBaseUrl + apiNames.sta + '/getBusStationAroundList', // 주변정류소 목록 조회(sta): serviceKey, numOfRows, pageNo, LAT, LNG
 };
-var apiData = {
+
+const apiData = {
     serviceKey: 'dU7dvWQUG8tftP9%2FNQlBADY5gjT5ZpS6xWVIZ%2Fwxr26jXjuJZlrLgExQvtyIaCfiioEJWez5DJ%2FcdIWAAFrctQ%3D%3D',
     numOfRows: 100,
     pageNo: 1,
     bstopId: 168001043
 };
 
-var bisPayloadString = Object.entries(apiData).map(e => e.join('=')).join('&');
+const bisPayloadString = Object.entries(apiData).map(e => e.join('=')).join('&');
 // var bisPayloadString = $.param(apiData); // jQuery 사용시
 // var bisPayloadString = querystring.stringify(apiData); // querystring 모듈 사용시
-var busArrivalQueryUrl = apiUrl.getAllRouteBusArrivalList + '?' + bisPayloadString;
-var busNumQueryUrl = apiUrl.getBusStationViaRouteList + '?' + bisPayloadString;
+const busArrivalQueryUrl = apiUrl.getAllRouteBusArrivalList + '?' + bisPayloadString;
+const busNumQueryUrl = apiUrl.getBusStationViaRouteList + '?' + bisPayloadString;
 
 // 웹 서버를 생성합니다.
-var app = express();
+const app = express();
 app.use(express.static('public'));
 
 // 웹 서버를 라우트합니다.
@@ -85,7 +86,7 @@ let boardBaseUrl = "https://www.seo.incheon.kr/open_content/main/bbs/bbsMsgList.
 
 app.get('/getSeoguBoard', function (request, response) {
     if (boardBaseUrl) {
-        var pageNo = request.params['pageNo'];
+        const pageNo = request.params['pageNo'];
 
         axios.get(boardBaseUrl + pageNo)
             .then(html => {
