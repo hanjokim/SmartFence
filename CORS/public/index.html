@@ -106,10 +106,11 @@
             }
 
 
+            const bisInterval = 30; // 버스 도착 정보 갱신 주기 - 초 단위
             let xmlString = null;
 
-            // 버스 도착 정보 - 갱신 주기로 초기화(초 단위)
-            bisInit(30);
+            // 버스 도착 정보
+            bisInit(bisInterval);
 
             function bisInit(intervalSecond) {
                 getBusSchedule();
@@ -196,11 +197,6 @@
             articleArray.forEach((item, i) => {
                 $('#article_'+i).html(item.no + ' | ' + item.datetime + ' | ' + item.title + ' | ' + item.author);
             });
-            // for (let i = 0; i < maxArticle; i++){
-            //     console.log(articleArray[i].no + '|' + articleArray[i].datetime + '|' + articleArray[i].author);
-            //     // $('#article_'+i).innerHTML(articleArray[i].no + '|' + articleArray[i].datetime + '|' + articleArray[i].author);
-            // }
-
 
             // 서구청 [새소식] 게시판 목록 가져오기(Array)
             function getSeoguBoardArray(pageNo){
@@ -370,6 +366,12 @@
                             <td id="cell3_7">&nbsp;</td>
                             <td id="cell4_7">&nbsp;</td>
                         </tr>
+                        <tr>
+                            <td id="cell1_8">&nbsp;</td>
+                            <td id="cell2_8">&nbsp;</td>
+                            <td id="cell3_8">&nbsp;</td>
+                            <td id="cell4_8">&nbsp;</td>
+                        </tr>
                         </tbody>
                     </table>
 
@@ -402,20 +404,10 @@
                 <script src="js/raphael-min.js"></script>
                 <script src="js/justgage.min.js"></script>
                 <script>
-                    // resource=[
-                    //     "js/raphael-min.js",
-                    //     "js/justgage.min.js"
-                    // ]
-                    // $.getScript(resource[0],function(){
-                    //     $.getScript(resource[1],init)
-                    // })
-                    //////////////////////////////gauge 1
-                    // init = function(){
-
-                    let temp = "26";
-                    let hum = "47";
-                    let fdust = "80";
-                    let ufdust = "30";
+                    let temp = 20;
+                    let hum = 50;
+                    let fdust = 10;
+                    let ufdust = 10;
 
                     var g1 = new JustGage({
                         id: "gauge1",
@@ -423,14 +415,8 @@
                         min: -20,
                         max: 50,
                         title: "기온",
-                        levelColors: ['#0000ff', '#00ff00', '#ff0000']
+                        levelColors: ['#0000ff', '#00c9c9', '#ff8000']
                     });
-
-                    //refresh gauge when calcvalue changes
-                    // $(calcValue1).one('DOMSubtreeModified',function(){
-                    //     g.refresh($(this).text())
-                    // })
-                    ////////////////////////////////gauge 2
                     var g2 = new JustGage({
                         id: "gauge2",
                         value: hum,
@@ -439,11 +425,6 @@
                         title: "습도",
                         levelColors: ['#0F3F73', '#6393bc', '#aaaaaa']
                     });
-                    //refresh gauge when calcvalue changes
-                    // $(calcValue2).one('DOMSubtreeModified',function(){
-                    //     g.refresh($(this).text())
-                    // })
-                    ////////////////////////////////gauge 3
                     var g3 = new JustGage({
                         id: "gauge3",
                         value: fdust,
@@ -452,12 +433,6 @@
                         title: "미세먼지농도",
                         levelColors: ['#dddddd', '#aaaaaa', '#666666']
                     });
-                    //refresh gauge when calcvalue changes
-                    // $(calcValue3).one('DOMSubtreeModified',function(){
-                    //     g.refresh($(this).text())
-                    // })
-                    // }
-                    ////////////////////////////////gauge 4
                     var g4 = new JustGage({
                         id: "gauge4",
                         value: ufdust,
@@ -466,11 +441,7 @@
                         title: "초미세먼지농도",
                         levelColors: ['#dddddd', '#aaaaaa', '#666666']
                     });
-                    //refresh gauge when calcvalue changes
-                    // $(calcValue3).one('DOMSubtreeModified',function(){
-                    //     g.refresh($(this).text())
-                    // })
-                    // }
+
                     setInterval(function (){
                         temp = getRandomInt(0, 40);
                         hum = getRandomInt(0, 90);

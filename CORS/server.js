@@ -32,12 +32,15 @@ const apiData = {
     serviceKey: 'dU7dvWQUG8tftP9%2FNQlBADY5gjT5ZpS6xWVIZ%2Fwxr26jXjuJZlrLgExQvtyIaCfiioEJWez5DJ%2FcdIWAAFrctQ%3D%3D',
     numOfRows: 100,
     pageNo: 1,
-    bstopId: 168001043
 };
 
-const bisPayloadString = Object.entries(apiData).map(e => e.join('=')).join('&');
-// var bisPayloadString = $.param(apiData); // jQuery 사용시
-// var bisPayloadString = querystring.stringify(apiData); // querystring 모듈 사용시
+const bisApiData = Object.assign({}, apiData, { bstopId: 168001043 });
+const weatherApiData = Object.assign({}, apiData, {});
+
+const bisPayloadString = Object.entries(bisApiData).map(e => e.join('=')).join('&');
+const weatherPayloadString = Object.entries(weatherApiData).map(e => e.join('=')).join('&');
+// var bisPayloadString = $.param(bisApiData); // jQuery 사용시
+// var bisPayloadString = querystring.stringify(bisApiData); // querystring 모듈 사용시
 const busArrivalQueryUrl = apiUrl.getAllRouteBusArrivalList + '?' + bisPayloadString;
 const busNumQueryUrl = apiUrl.getBusStationViaRouteList + '?' + bisPayloadString;
 
