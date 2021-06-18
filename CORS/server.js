@@ -37,11 +37,11 @@ const bisApiData = Object.assign({}, apiData, { bstopId: 168001043 });
 const weatherApiData = Object.assign({}, apiData, {});
 
 const bisPayloadString = Object.entries(bisApiData).map(e => e.join('=')).join('&');
-const weatherPayloadString = Object.entries(weatherApiData).map(e => e.join('=')).join('&');
 // var bisPayloadString = $.param(bisApiData); // jQuery 사용시
 // var bisPayloadString = querystring.stringify(bisApiData); // querystring 모듈 사용시
-const busArrivalQueryUrl = apiUrl.getAllRouteBusArrivalList + '?' + bisPayloadString;
+const weatherPayloadString = Object.entries(weatherApiData).map(e => e.join('=')).join('&');
 const busNumQueryUrl = apiUrl.getBusStationViaRouteList + '?' + bisPayloadString;
+const busArrivalQueryUrl = apiUrl.getAllRouteBusArrivalList + '?' + bisPayloadString;
 
 // 웹 서버를 생성합니다.
 const app = express();
