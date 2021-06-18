@@ -83,9 +83,7 @@
                         let items = obj.getElementsByTagName("itemList");
                         for (let item of items) {
                             let routeId = item.getElementsByTagName("ROUTEID")[0].childNodes[0].nodeValue;
-                            let busRouteNum = item.getElementsByTagName("ROUTENO")[0].childNodes[0].nodeValue;
-
-                            routeNo[routeId] = busRouteNum;
+                            routeNo[routeId] = item.getElementsByTagName("ROUTENO")[0].childNodes[0].nodeValue;
                         }
                     },
                     error:  function (){
@@ -241,11 +239,11 @@
                         });
 
                         objArr.push(article);
-
+                        $('#article_' + i).html(article.no + ' | ' + article.datetime + ' | ' + article.title + ' | ' + article.author);
                     });
-                    objArr.forEach((item, i) => {
-                        $('#article_' + i).html(item.no + ' | ' + item.datetime + ' | ' + item.title + ' | ' + item.author);
-                    });
+                    // objArr.forEach((item, i) => {
+                    //     $('#article_' + i).html(item.no + ' | ' + item.datetime + ' | ' + item.title + ' | ' + item.author);
+                    // });
                 });
                 return objArr;
             }
