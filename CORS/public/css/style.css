@@ -77,7 +77,7 @@ header.logo {
     list-style: square;
     /*list-style-image: url("../media/icon_information.png");*/
 }
-#left > div > sectionName, #right > div > sectionName {
+.sectionTitle {
     font-size:2em;
     font-weight: bold;
     color: darkslategrey;
