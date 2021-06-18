@@ -9,12 +9,13 @@
     <script>
         $(document).ready(function (){
             let parser = new DOMParser();
+            let clockTimerId = -1;
+            let bisTimerId = -1;
+            let boardTimerId = -1;
 
             // 시간 표시 부분
             const $dateTarget = $("#date");
             const $timeTarget = $("#time");
-            let clockTimerId = -1;
-            let bisTimerId = -1;
 
             function clock() {
                 let date = new Date(); // date Object를 받아오고
@@ -59,25 +60,13 @@
 
             function clockInit() {
                 clock(); // 최초에 함수를 한번 실행시켜주고
-                clocktimerId = setInterval(clock, 1000); // setInterval이라는 함수로 매초마다 실행을 해줍니다.
+                clockTimerId = setInterval(clock, 1000); // setInterval이라는 함수로 매초마다 실행을 해줍니다.
                 // setInterval은 첫번째 파라메터는 함수이고 두번째는 시간인데 밀리초단위로 받습니다. 1000 = 1초
             }
 
             clockInit();
 
             // BIS
-            /*
-            const routeNo = {
-                '165000059': '202',
-                '165000238': '2-1',
-                '165000328': '72',
-                '165000441': '43',
-                '165000507': '44',
-                '166000010': '급행91',
-                '168000038': '인천e음85',
-            };
-            */
-
             let routeNo = {};
 
             getRouteNo();
@@ -106,11 +95,11 @@
             }
 
 
-            const bisInterval = 30; // 버스 도착 정보 갱신 주기 - 초 단위
+            const bisInfoInterval = 30; // 버스 도착 정보 갱신 주기 - 초 단위
             let xmlString = null;
 
             // 버스 도착 정보
-            bisInit(bisInterval);
+            bisInit(bisInfoInterval);
 
             function bisInit(intervalSecond) {
                 getBusSchedule();
@@ -189,14 +178,25 @@
                 return busArray;
             }
 
+            const boardInfoInterval = 60; // 게시판 정보 갱신 주기 - 분 단위
+            let articleArray = [];
+
+            // 게시판 정보 초기화
+            boardInit(boardInfoInterval);
+
+            function boardInit(intervalMinute) {
+                displayBoardInfo();
+                boardTimerId = setInterval(displayBoardInfo, intervalMinute * 60 * 1000);
+            }
 
             // 서구청 [새소식] 게시판 목록 표시하기
-            let articleArray = getSeoguBoardArray(1);
-            const maxArticle = 7;
-            console.log(articleArray);
-            articleArray.forEach((item, i) => {
-                $('#article_'+i).html(item.no + ' | ' + item.datetime + ' | ' + item.title + ' | ' + item.author);
-            });
+            function displayBoardInfo(){
+                articleArray = getSeoguBoardArray(1);
+                console.log(articleArray);
+                // articleArray.forEach((item, i) => {
+                //     $('#article_' + i).html(item.no + ' | ' + item.datetime + ' | ' + item.title + ' | ' + item.author);
+                // });
+            }
 
             // 서구청 [새소식] 게시판 목록 가져오기(Array)
             function getSeoguBoardArray(pageNo){
@@ -204,7 +204,7 @@
                 let promise = $.ajax({
                     type: 'get',
                     url: '/getSeoguBoard',
-                    async: false,
+                    // async: false,  // promise.done 내부로 게시판 표시 루틴을 넣어야 async 가능?
                     data: {
                         pageNo: pageNo,
                     }
@@ -243,7 +243,9 @@
                         objArr.push(article);
 
                     });
-
+                    objArr.forEach((item, i) => {
+                        $('#article_' + i).html(item.no + ' | ' + item.datetime + ' | ' + item.title + ' | ' + item.author);
+                    });
                 });
                 return objArr;
             }
