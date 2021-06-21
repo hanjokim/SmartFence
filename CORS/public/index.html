@@ -13,6 +13,17 @@
             let bisTimerId = -1;
             let boardTimerId = -1;
 
+            function leadingZeros(n, digits) {
+                let zero = '';
+                n = n.toString();
+
+                if (n.length < digits) {
+                    for (let i = 0; i < digits - n.length; i++)
+                        zero += '0';
+                }
+                return zero + n;
+            }
+
             // 시간 표시 부분
             const $dateTarget = $("#date");
             const $timeTarget = $("#time");
@@ -45,17 +56,6 @@
                 $dateTarget.html(`${month+1}월 ${clockDate}일 \(${week[day]}\) `); // 월은 0부터 1월이기때문에 +1
                 $timeTarget.html(`${ampm} ${hours} : ${minutes} : ${seconds}`);
 
-            }
-
-            function leadingZeros(n, digits) {
-                let zero = '';
-                n = n.toString();
-
-                if (n.length < digits) {
-                    for (let i = 0; i < digits - n.length; i++)
-                        zero += '0';
-                }
-                return zero + n;
             }
 
             function clockInit() {
@@ -198,6 +198,9 @@
 
             // 서구청 [새소식] 게시판 목록 가져오기(Array)
             function getSeoguBoardArray(pageNo){
+                const present = new Date();
+                const presentDate = present.getFullYear() + '.' + leadingZeros(present.getMonth()+1, 2) + '.' + leadingZeros(present.getDate());
+
                 let objArr = [];
                 let promise = $.ajax({
                     type: 'get',
@@ -230,7 +233,8 @@
                                     article['author'] = $(e).text();
                                     break
                                 case 4:
-                                    article['datetime'] = $(e).text();
+                                    let articleDate = $(e).text();
+                                    article['datetime'] = articleDate.indexOf(':') > 0 ? presentDate : articleDate; // 당일자 게시물은 날짜가 아닌 시간 표시이므로 이를 당일 날짜로 변경
                                     break
                                 case 5:
                                     article['hits'] = $(e).text();
@@ -299,9 +303,9 @@
                     <li id="article_1"></li>
                     <li id="article_2"></li>
                     <li id="article_3"></li>
-                    <li id="article_4"></li>
-                    <li id="article_5"></li>
-                    <li id="article_6"></li>
+<!--                    <li id="article_4"></li>-->
+<!--                    <li id="article_5"></li>-->
+<!--                    <li id="article_6"></li>-->
                 </ul>
             </div>
         </div>
