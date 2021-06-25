@@ -15,6 +15,7 @@ const bisApiNames = {
     sta: 'busStationService'
 };
 const apiUrl = {
+    // BIS 관련 URLs
     getAllRouteBusArrivalList: bisBaseUrl + bisApiNames.arr + '/getAllRouteBusArrivalList', // 버스도착정보목록조회(arr): serviceKey, numOfRows, pageNo, bstopId
     getBusArrivalList: bisBaseUrl + bisApiNames.arr + '/getBusArrivalList', // 버스도착정보항목조회(arr): serviceKey, numOfRows, pageNo, bstopId, routeId
     getBusRouteSectionList: bisBaseUrl + bisApiNames.rou + '/getBusRouteSectionList', // 경유 정류소 목록 조회(rou): serviceKey, numOfRows, pageNo, routeId
@@ -25,6 +26,8 @@ const apiUrl = {
     getBusStationIdList: bisBaseUrl + bisApiNames.sta + '/getBusStationIdList', // 정류소번호목록 조회(sta): serviceKey, numOfRows, pageNo, bstopId
     getBusStationViaRouteList: bisBaseUrl + bisApiNames.sta + '/getBusStationViaRouteList', // 정류소경유노선 목록 조회(sta): serviceKey, numOfRows, pageNo, bstopId
     getBusStationAroundList: bisBaseUrl + bisApiNames.sta + '/getBusStationAroundList', // 주변정류소 목록 조회(sta): serviceKey, numOfRows, pageNo, LAT, LNG
+
+    // 날씨 관련 URLs
 };
 
 const apiData = {
